@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../models/journalData.dart';
 import '../models/journalEntry.dart';
 import '../models/task.dart';
+import '../widgets/habitTrackerWidget.dart';
 import '../widgets/taskWidget.dart';
 import '../widgets/toDoListWidget.dart';
 import 'addTaskScreen.dart';
@@ -74,8 +75,11 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 10,
               ),
-
-              toDoListWidget()
+              HabitTracker(),
+              SizedBox(
+                height: 10,
+              ),
+              toDoListWidget(),
             ],
           ),
         ),
