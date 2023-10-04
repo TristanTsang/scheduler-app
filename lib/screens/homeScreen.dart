@@ -55,8 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: ListView(
             children: [
               Text(
                 DateFormat.yMMMMd('en_US').format(selectedDay),
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 10,
               ),
-              HabitTracker(),
+              HabitTrackerWidget(selectedDay),
               SizedBox(
                 height: 10,
               ),

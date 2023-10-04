@@ -6,9 +6,11 @@ import 'package:improvement_journal/extensions.dart';
 import 'package:improvement_journal/models/task.dart';
 import 'package:provider/provider.dart';
 
+import 'habit.dart';
 import 'journalEntry.dart';
 
 class JournalData extends ChangeNotifier {
+
   DateTime _selectedDay = DateTime.now();
   LinkedHashMap<DateTime, JournalEntry> _journalEntryMap =
       LinkedHashMap<DateTime, JournalEntry>(equals: (DateTime a, DateTime b){
@@ -44,4 +46,5 @@ class JournalData extends ChangeNotifier {
     task.toggleDone();
     notifyListeners();
   }
+
 }

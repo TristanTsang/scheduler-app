@@ -26,7 +26,7 @@ class JournalEntry {
     _toDoList.add(task);
   }
 
-  void removeTask(int index) {
-    _toDoList.remove(index);
+  void removeTask(Task task) {
+    _toDoList.remove(task);
   }
 }

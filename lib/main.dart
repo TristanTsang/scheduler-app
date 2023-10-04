@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:improvement_journal/screens/homeScreen.dart';
 import 'package:provider/provider.dart';
+import 'models/HabitData.dart';
 import 'models/journalData.dart';
 
 void main() {
   runApp(
-      ChangeNotifierProvider(
-    create: (context) => JournalData(),
-      child: const MyApp()));
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) => HabitData(),),
+        ChangeNotifierProvider(
+            create: (context) => JournalData(),),
+
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -32,7 +41,7 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: 'homeScreen',
       routes: {
-        'homeScreen': (context)=> HomeScreen(),
+        'homeScreen': (context) => HomeScreen(),
       },
     );
   }

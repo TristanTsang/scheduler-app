@@ -1,9 +1,10 @@
 import 'dart:collection';
+import 'package:flutter/cupertino.dart';
 import 'package:improvement_journal/extensions.dart';
 
 import 'habit.dart';
 
-class HabitTracker {
+class HabitData extends ChangeNotifier {
   HashMap<Habit, HashSet<DateTime>> _habitMap =
       HashMap<Habit, HashSet<DateTime>>();
   HashMap<DateTime, Set<Habit>> _dateMap =
@@ -12,17 +13,20 @@ class HabitTracker {
   });
   var currentHabits = <Habit>[];
 
-  void addHabit(Habit habit) {
+  void addHabit(Habit habit, DateTime date) {
     _habitMap.addAll({
       habit: HashSet<DateTime>(equals: (DateTime a, DateTime b) {
         return a.isSameDate(b);
       })
     });
     currentHabits.add(habit);
+    _dateMap[date]!.add(habit);
+    notifyListeners();
   }
 
-  void removeHabit(String habit) {
+  void removeHabit(Habit habit) {
     currentHabits.remove(habit);
+    notifyListeners();
   }
   void updateDate(DateTime date) {
     _dateMap.putIfAbsent(date, () {
@@ -31,7 +35,8 @@ class HabitTracker {
         mySet.add(Habit(item.name));
       }
       return mySet;
-    });
+    },);
+
   }
 
   int getStreak(Habit habit) {
@@ -58,6 +63,6 @@ class HabitTracker {
     _habitMap[habit]!.add(date);
   }
 
-  Set<Habit> getHabits(DateTime date) => _dateMap[date]!;
+  Set<Habit> getHabits(DateTime date) =>_dateMap[date]!;
   Set<Habit> getDates(Habit habit) => _dateMap[habit]!;
 }
