@@ -4,6 +4,7 @@ import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:improvement_journal/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
 import '../models/journalData.dart';
 import '../models/journalEntry.dart';
@@ -57,16 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: const EdgeInsets.all(10.0),
           child: ListView(
             children: [
-              Text(
-                DateFormat.yMMMMd('en_US').format(selectedDay),
-                style: primaryHeader
-              ),
-              Text(getDateText(),
-                  style: primarySubtitle),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.02,
-              ),
-              CalendarTimeline(),
+              Text(DateFormat.yMMMMd('en_US').format(selectedDay),
+                  style: primaryHeader),
+              Text(getDateText(), style: primarySubtitle),
+              SizedBox(height: MediaQuery.of(context).size.height*0.08,child: CalendarTimeline()),
               Divider(
                 color: kLightAccentColor,
                 thickness: 2,
@@ -107,25 +102,60 @@ class CalendarTimeline extends StatefulWidget {
 }
 
 class _CalendarTimelineState extends State<CalendarTimeline> {
-  List<Widget> displayWeek(DateTime initialDate) {
-    List<Widget> dateWidgets = [];
-    for (int i = 0; i < 7; i++) {
-      dateWidgets.add(DateWidget(
-        date:
-            DateTime(initialDate.year, initialDate.month, initialDate.day + i),
-        selectedDate:
-            Provider.of<JournalData>(context, listen: true).getSelectedDay(),
+  List<Widget> displayWeek(DateTime initialDate, Function myFunc) {
+    List<Widget> weekWidgets = [];
+    for (int j = 0; j < 3; j++) {
+      List<Widget> dateWidgets = [];
+
+      for (int i = 0; i < 7; i++) {
+        dateWidgets.add(DateWidget(
+          date: DateTime(
+              initialDate.year, initialDate.month, initialDate.day + i + 7*(j-1)),
+          selectedDate:
+              Provider.of<JournalData>(context, listen: true).getSelectedDay(),
+        ));
+      }
+
+      weekWidgets.add(SizedBox(
+        width: MediaQuery.of(context).size.width*0.95,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: dateWidgets,
+          ),
+        ),
       ));
     }
-    return dateWidgets;
+
+    return weekWidgets;
   }
+
+  var weekDate = DateTimeExtensions.mostRecentMonday(DateTime.now());
+  myFunc(DateTime date) {
+    setState(() {
+      weekDate = date;
+    });
+  }
+
+
+
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children:
-          displayWeek(DateTimeExtensions.mostRecentMonday(DateTime.now())),
+    ScrollController scrollController = ScrollController(
+      initialScrollOffset: MediaQuery.of(context).size.width, // or whatever offset you wish
+      keepScrollOffset: true,
+    );
+    var children = displayWeek(weekDate, myFunc);
+    return ScrollablePositionedList.builder(
+      initialScrollIndex: 1,
+      itemScrollController: ItemScrollController(),
+      scrollDirection: Axis.horizontal,
+      physics: const PageScrollPhysics(), // this for snapping
+      itemCount: children.length,
+      itemBuilder: (_, index) => children[index],
     );
   }
 }
@@ -159,19 +189,18 @@ class DateWidget extends StatelessWidget {
         fontSize: MediaQuery.of(context).size.width * 0.045,
         fontWeight: FontWeight.bold);
 
-
     return Container(
       width: MediaQuery.of(context).size.width * 0.1,
-      height: MediaQuery.of(context).size.height * 0.075,
+      height: MediaQuery.of(context).size.height * 0.07,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
-            color:
-                selectedDate.isSameDate(date) ? Colors.black : Colors.transparent,
-            width: 1),
+            color: selectedDate.isSameDate(date)
+                ? Colors.black
+                : Colors.transparent,
+            width: 2),
       ),
       child: RawMaterialButton(
-
         onPressed: () {
           Provider.of<JournalData>(context, listen: false)
               .changeSelectedDay(date);
@@ -202,11 +231,3 @@ class DateWidget extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-
