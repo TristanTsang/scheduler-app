@@ -25,8 +25,20 @@ class HabitData extends ChangeNotifier {
     return habit.dateSet.contains(date);
   }
 
+  void trackHabit(Habit habit) {
+    habit.track();
+    notifyListeners();
+  }
+  void untrackHabit(Habit habit,) {
+    habit.untrack();
+    notifyListeners();
+  }
   Set<Habit> getHabits(DateTime date) {
     return _dateMap[date]!;
+  }
+
+  List<Habit> getAllHabits() {
+    return allHabits;
   }
 
   void markHabitDate(DateTime date, Habit habit) {
@@ -41,15 +53,22 @@ class HabitData extends ChangeNotifier {
   }
 
   void updateDate(DateTime date) {
-    _dateMap.putIfAbsent(date, () {
       Set<Habit> mySet = <Habit>{};
       for (Habit item in allHabits) {
-        if (item.tracked) {
+        if (item.tracked && !date.isBefore(DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day))) {
           mySet.add(item);
         }
       }
-      return mySet;
-    });
+
+      if(!date.isBefore(DateTime(DateTime.now().year, DateTime.now().month,DateTime.now().day))){
+        _dateMap[date] = mySet;
+      }else{
+        _dateMap.putIfAbsent(date, () {
+          return <Habit>{};
+        });
+      }
+
+
   }
 
   void deleteHabit(Habit habit) {

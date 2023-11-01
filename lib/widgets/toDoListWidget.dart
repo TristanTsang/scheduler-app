@@ -80,6 +80,7 @@ class toDoListWidget extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
+                        heroTag: "taskButton",
                         child: Icon(Icons.add),
                         mini: true,
                         backgroundColor: kPrimaryColor,

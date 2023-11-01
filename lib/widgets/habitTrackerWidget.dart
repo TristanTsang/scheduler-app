@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../models/HabitData.dart';
 import '../models/habit.dart';
+import '../screens/HabitManagerScreen.dart';
 import '../screens/addTaskScreen.dart';
 import 'HabitWidget.dart';
 class HabitTrackerWidget extends StatelessWidget {
@@ -24,45 +25,32 @@ class HabitTrackerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     Provider.of<HabitData>(context, listen: false).updateDate(date);
 
-    return Container(
-        height: MediaQuery.of(context).size.height*0.15,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-            color: kPrimaryColor,
-            borderRadius: BorderRadius.circular(10)
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Habit Tracker:", style:TextStyle(color: Colors.white, fontSize:defaultFontSize, fontWeight: FontWeight.bold )),
-              Expanded(
-                child: Stack(
-                    children:[ListView(
-                      children: buildHabitList(Provider.of<HabitData>(context, listen: true).getHabits(date)),
-                    ),
-                      Align(
-                        alignment: Alignment.bottomRight,
-                        child: FloatingActionButton(
-                          child: Icon(Icons.add, color: kPrimaryColor),
-                          mini: true,
-                          backgroundColor: Colors.white,
-                          onPressed: () {
-                            showModalBottomSheet(
-                                isScrollControlled: true,
-                                context: context,
-                                builder: (context) {
-                                  return AddHabitScreen();
-                                });
-                          },
-                        ),
-                      )]
-                ),
-              ),
-            ],
+    return RawMaterialButton(
+      onPressed: (){
+        Navigator.push(context, MaterialPageRoute(builder: (context) => HabitManagerScreen()));
+      },
+      child: Container(
+          height: MediaQuery.of(context).size.height*0.15,
+          width: MediaQuery.of(context).size.width,
+          decoration: BoxDecoration(
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.circular(10)
           ),
-        )
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Habit Tracker:", style:TextStyle(color: Colors.white, fontSize:defaultFontSize, fontWeight: FontWeight.bold )),
+                Expanded(
+                  child: ListView(
+                    children: buildHabitList(Provider.of<HabitData>(context, listen: true).getHabits(date)),
+                  ),
+                ),
+              ],
+            ),
+          )
+      ),
     );
   }
 }
