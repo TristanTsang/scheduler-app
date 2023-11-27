@@ -4,8 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:improvement_journal/widgets/taskWidget.dart';
 import 'package:provider/provider.dart';
 
+import '../Providers/AppData.dart';
+import '../Providers/TaskData.dart';
 import '../constants.dart';
-import '../models/journalData.dart';
+import '../Providers/journalData.dart';
+import '../models/TaskList.dart';
 import '../models/journalEntry.dart';
 import '../models/task.dart';
 import '../screens/addTaskScreen.dart';
@@ -23,10 +26,9 @@ class toDoListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    JournalEntry journal =
-        Provider.of<JournalData>(context, listen: true).getSelectedJournal();
-
-
+    DateTime date = Provider.of<AppData>(context, listen: true).getSelectedDay();
+    TaskList taskList =
+        Provider.of<TaskData>(context, listen: true).getTaskList(date);
     return Material(
       elevation: 2,
         borderRadius: BorderRadius.circular(10),
@@ -63,7 +65,7 @@ class toDoListWidget extends StatelessWidget {
                     ),
 
                     Text(
-                    journal.toDoList.length>0?"You have completed ${journal.numCompletedTasks}/${journal.toDoList.length} tasks." : "No tasks scheduled.",
+                    taskList.getLength()>0?"You have completed ${taskList.numCompletedTasks()}/${taskList.getLength()} tasks." : "No tasks scheduled.",
                       style: secondarySubtitle,
                     ),
                   ],
@@ -75,13 +77,14 @@ class toDoListWidget extends StatelessWidget {
                   child: Stack(children: [
                     ListView(
                       padding: EdgeInsets.zero,
-                      children: addTaskWidgets(journal.toDoList),
+                      children: addTaskWidgets(taskList.getTasks()),
                     ),
                     Align(
                       alignment: Alignment.bottomRight,
                       child: FloatingActionButton(
+                        shape: CircleBorder(),
                         heroTag: "taskButton",
-                        child: Icon(Icons.add),
+                        child: Icon(Icons.add, color: Colors.white),
                         mini: true,
                         backgroundColor: kPrimaryColor,
                         onPressed: () {

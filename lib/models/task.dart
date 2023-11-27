@@ -18,7 +18,7 @@ class Task {
 
   String? get description => _description;
 
-  String ?get priority => _priority;
+  String? get priority => _priority;
 
   DateTime? get dueDate => _dueDate;
 

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../Providers/AppData.dart';
+import '../Providers/TaskData.dart';
 import '../constants.dart';
-import '../models/journalData.dart';
+import '../Providers/journalData.dart';
 import '../models/task.dart';
 
 const List<DropdownMenuItem<String>> list = <DropdownMenuItem<String>>[
@@ -73,6 +75,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime date = Provider.of<AppData>(context, listen: true).getSelectedDay();
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Padding(
@@ -93,53 +96,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 text = value;
               },
             ),
-            TextField(
-              style: TextStyle(fontSize: 15),
-              maxLines: 1,
-              decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: "Task Description",
-                  isDense: true),
-              autofocus: true,
-              onChanged: (value) {
-                description = value;
-              },
-            ),
-            Row(
-              children: [
-                RawMaterialButton(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(selectedDate != null
-                          ? DateFormat('MMM d').format(selectedDate!)
-                          : "Select Date"),
-                    ),
-                    onPressed: () {
-                      _selectDate(context);
-                    }),
-                DropdownButton(
-                    focusNode: FocusNode(canRequestFocus: false),
-                    style: const TextStyle(color: Colors.deepPurple),
-                    value: dropdownValue,
-                    items: list,
-                    onChanged: (value) {
-                      setState(() {
-                        dropdownValue = value!;
-                      });
-                    }),
-                DropdownButton(
-                    focusNode: FocusNode(canRequestFocus: false),
-                    style: const TextStyle(color: Colors.deepPurple),
-                    value: labelValue,
-                    items: labelMenu,
-                    onChanged: (value) {
-                      setState(() {
-                        labelValue = value!;
-                      });
-                    }),
-              ],
-            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
@@ -158,13 +114,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                       ),
                     )),
                 onPressed: () {
-                  Provider.of<JournalData>(context, listen: false).addTask(Task(
-                      taskName: text!,
-                      dueDate: selectedDate,
-                      description: description,
-                      label: labelValue,
-                      priority: dropdownValue));
-                  Navigator.pop(context);
+                  if(text !=null){
+                    Provider.of<TaskData>(context, listen: false).getTaskList(date).addTask(Task(
+                      taskName: text!,));
+                    Provider.of<TaskData>(context, listen: false).updateTaskList();
+                    Navigator.pop(context);
+                  }
                 }),
           ],
         ),

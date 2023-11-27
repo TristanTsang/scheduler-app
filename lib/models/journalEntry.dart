@@ -1,32 +1,34 @@
+import 'dart:collection';
+import 'dart:convert';
+
 import 'package:improvement_journal/models/task.dart';
 
 class JournalEntry {
-  late DateTime _date;
-  List<Task> _toDoList = [];
-  String _journalText = "";
+  late List<String> _journalPrompts;
+  late String _jsonJournalString;
 
-  JournalEntry({required DateTime date,List<Task>? toDoList}) {
-    _date = date;
-    _toDoList = toDoList!=null? toDoList : [];
-  }
-  int get numCompletedTasks {
-    int num =0;
-    for(int i=0;i< _toDoList.length;i++){
-      if(_toDoList[i].done){
-        num++;
-      }
+  JournalEntry(List<String> journalPrompts){
+    _journalPrompts = journalPrompts;
+    List<Map<String, dynamic>> jsonFile = <Map<String, dynamic>>[];
+
+    for(String prompt in _journalPrompts){
+      jsonFile.add({'insert': '$prompt\n', 'attributes': {"bold": true, "size": "20"}});
+      jsonFile.add({'insert' : '\n'});
+      jsonFile.add({'insert' : '\n'});
+      jsonFile.add({'insert' : '\n'});
+      jsonFile.add({'insert' : '\n'});
+      jsonFile.add({'insert' : '\n'});
     }
-    return num;
+    _jsonJournalString = jsonEncode(jsonFile);
   }
 
-  String get journalText => _journalText;
-
-  List<Task> get toDoList => _toDoList;
-  void addTask(Task task) {
-    _toDoList.add(task);
+  void editFile( String text){
+    _jsonJournalString = text;
   }
 
-  void removeTask(Task task) {
-    _toDoList.remove(task);
+  String getFile(){
+    return _jsonJournalString;
   }
+
+  List<String> get journalPrompts => _journalPrompts;
 }

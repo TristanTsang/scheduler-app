@@ -1,24 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/AppData.dart';
 import '../constants.dart';
-import '../Providers/HabitData.dart';
-import '../models/habit.dart';
-import '../Providers/journalData.dart';
+import '../Providers/JournalData.dart';
 
-class AddHabitScreen extends StatefulWidget {
-  const AddHabitScreen({Key? key}) : super(key: key);
+class AddJournalScreen extends StatefulWidget {
+  const AddJournalScreen({Key? key}) : super(key: key);
 
   @override
-  State<AddHabitScreen> createState() => _AddHabitScreenState();
+  State<AddJournalScreen> createState() => _AddJournalScreenState();
 }
 
-class _AddHabitScreenState extends State<AddHabitScreen> {
+class _AddJournalScreenState extends State<AddJournalScreen> {
   String? text;
-  int? duration;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,27 +28,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
             TextField(
               style: secondaryHeader,
               decoration: InputDecoration(
-                  hintText: "Habit Name",
+                  hintText: "Journal Prompt",
                   hintStyle: secondarySubtitle,
                   border: InputBorder.none),
               maxLines: 1,
               autofocus: true,
               onChanged: (value) {
                 text = value;
-              },
-            ),
-            TextField(
-              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
-              style: secondaryHeader,
-                keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  hintText: "Habit Duration (days)",
-                  hintStyle: secondarySubtitle,
-                  border: InputBorder.none),
-              maxLines: 1,
-              autofocus: true,
-              onChanged: (value) {
-                duration = int.parse(value);
               },
             ),
             SizedBox(
@@ -68,13 +50,13 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                     ),
                     child: const Center(
                       child: Text(
-                        "Add Habit",
+                        "Add Journal",
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
                     )),
                 onPressed: () {
-                  if(duration!= null && text !=null){
-                    Provider.of<HabitData>(context, listen: false).addHabit(Habit(text!, duration!));
+                  if(text !=null){
+                    Provider.of<JournalData>(context, listen: false).addPrompt(text!);
                     Navigator.pop(context);
                   }
 

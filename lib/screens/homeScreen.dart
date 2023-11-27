@@ -6,9 +6,11 @@ import 'package:improvement_journal/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
-import '../models/journalData.dart';
+import '../Providers/AppData.dart';
+import '../Providers/journalData.dart';
 import '../models/journalEntry.dart';
 import '../models/task.dart';
+import '../widgets/JournalButton.dart';
 import '../widgets/habitTrackerWidget.dart';
 import '../widgets/taskWidget.dart';
 import '../widgets/toDoListWidget.dart';
@@ -44,13 +46,28 @@ class _HomeScreenState extends State<HomeScreen> {
     return text;
     //Provider.of<JournalData>(context, listen: true).getSelectedDay();
   }
+  int _selectedIndex = 0;
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if(index ==0){
+      Navigator.popAndPushNamed(context, "homeScreen");
+    }
+    if(index ==1){
+      Navigator.popAndPushNamed(context, 'journals');
+    }
+    if(index ==2){
+      Navigator.popAndPushNamed(context, 'analytics');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     selectedDay =
-        Provider.of<JournalData>(context, listen: true).getSelectedDay();
-    selectedJournal =
-        Provider.of<JournalData>(context, listen: true).getSelectedJournal();
+        Provider.of<AppData>(context, listen: true).getSelectedDay();
+
     return Scaffold(
       backgroundColor: Color(0xffF5F5F5),
       body: SafeArea(
@@ -70,25 +87,35 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 10,
               ),
               HabitTrackerWidget(selectedDay),
-              SizedBox(
-                height: 10,
-              ),
+              Divider(height: 15,),
+              JournalButton(),
+              Divider(height: 25, thickness: 2,),
               toDoListWidget(),
+
+
             ],
           ),
         ),
       ),
-      bottomNavigationBar: NavigationBar(
-        destinations: [
-          TextButton(
-            onPressed: () {},
-            child: Text(""),
-          ),
-          TextButton(
-            onPressed: () {},
-            child: Text(""),
-          )
+      bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        backgroundColor: Color(0xffF5F5F5),
+        items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.description), label: "Journals"),
+
+          BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Analytics"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
         ],
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: TextStyle(fontSize:15, fontWeight: FontWeight.bold),
+        selectedIconTheme: IconThemeData(size:35),
+        unselectedLabelStyle: TextStyle(fontSize:12),
+        showUnselectedLabels: true,
+        currentIndex: _selectedIndex,
+        selectedItemColor: kPrimaryColor,
+        unselectedItemColor: kDarkGrey,
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -112,7 +139,7 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
           date: DateTime(
               initialDate.year, initialDate.month, initialDate.day + i + 7*(j-1)),
           selectedDate:
-              Provider.of<JournalData>(context, listen: true).getSelectedDay(),
+              Provider.of<AppData>(context, listen: true).getSelectedDay(),
         ));
       }
 
@@ -196,13 +223,13 @@ class DateWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(5),
         border: Border.all(
             color: selectedDate.isSameDate(date)
-                ? Colors.black
+                ? kDarkGrey
                 : Colors.transparent,
-            width: 2),
+            width: 1),
       ),
       child: RawMaterialButton(
         onPressed: () {
-          Provider.of<JournalData>(context, listen: false)
+          Provider.of<AppData>(context, listen: false)
               .changeSelectedDay(date);
         },
         child: Column(

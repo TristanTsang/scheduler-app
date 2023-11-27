@@ -3,7 +3,6 @@ extension DateTimeExtensions on DateTime {
     return day == other.day &&  month == other.month  && year == other.year;
   }
 
-
   static DateTime mostRecentMonday(DateTime date) {
     return DateTime(date.year, date.month, date.day - (date.weekday - 1));
   }
@@ -14,5 +13,11 @@ extension DateTimeExtensions on DateTime {
     return (to.difference(from).inHours / 24).round();
   }
 
+  bool dateIsBefore(DateTime other){
+    if(year<other.year) return true;
+    if(year == other.year && month< other.month) return true;
+    if(year == other.year && month == other.month && day< other.day) return true;
+    else return false;
+  }
 
 }

@@ -4,30 +4,33 @@ import 'package:improvement_journal/constants.dart';
 import 'package:improvement_journal/screens/addHabitScreen.dart';
 import 'package:provider/provider.dart';
 
-import '../models/HabitData.dart';
+import '../Providers/HabitData.dart';
 import '../models/habit.dart';
-import '../screens/HabitManagerScreen.dart';
+import '../screens/AppEditorScreen.dart';
+import '../screens/AppEditorScreen.dart';
 import '../screens/addTaskScreen.dart';
 import 'HabitWidget.dart';
 class HabitTrackerWidget extends StatelessWidget {
   DateTime date;
   HabitTrackerWidget(this.date, {super.key});
 
-  List<Widget> buildHabitList(Set<Habit> habits){
+  List<Widget> buildHabitList(Set<Habit>? habits){
     var myList = <Widget>[];
-    for(Habit habit in habits){
-      myList.add(HabitWidget(habit, date));
+    if(habits != null){
+      for(Habit habit in habits){
+        myList.add(HabitWidget(habit, date));
+      }
     }
+
     return myList;
   }
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<HabitData>(context, listen: false).updateDate(date);
-
+    var myList = buildHabitList(Provider.of<HabitData>(context, listen: true).getHabits(date));
     return RawMaterialButton(
       onPressed: (){
-        Navigator.push(context, MaterialPageRoute(builder: (context) => HabitManagerScreen()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => const AppEditorScreen()));
       },
       child: Container(
           height: MediaQuery.of(context).size.height*0.15,
@@ -44,7 +47,15 @@ class HabitTrackerWidget extends StatelessWidget {
                 Text("Habit Tracker:", style:TextStyle(color: Colors.white, fontSize:defaultFontSize, fontWeight: FontWeight.bold )),
                 Expanded(
                   child: ListView(
-                    children: buildHabitList(Provider.of<HabitData>(context, listen: true).getHabits(date)),
+                    children: (myList.length==0)? [Center(
+                      child: Column(
+                        children: [
+                          Icon(Icons.light_mode, color: Colors.white, size:45),
+                          Text("No Habits Tracked For Today", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold ),),
+                          Text("Click To Add More!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        ],
+                      )
+                    )] : myList,
                   ),
                 ),
               ],

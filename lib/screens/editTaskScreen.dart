@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
+import '../Providers/TaskData.dart';
 import '../constants.dart';
-import '../models/journalData.dart';
+import '../Providers/journalData.dart';
 import '../models/task.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -69,43 +70,6 @@ class EditTaskScreenState extends State<EditTaskScreen> {
                 ),
               ],
             ),
-            Row(
-              children: [
-                SizedBox(width: 30, height: 30, child: Icon(Icons.list,color: kPrimaryColor,size:22.5)),
-                Expanded(
-                  child: TextField(
-                    keyboardType: TextInputType.multiline,
-                    maxLines: null,
-                    controller:
-                        TextEditingController(text: widget.task.description),
-                    style: defaultStyle,
-                    decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Task Description",
-                        isDense: true),
-                    autofocus: true,
-                    onChanged: (value) {
-                      description = value;
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: [
-                RawMaterialButton(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15)),
-                      child: Text(selectedDate != null
-                          ? DateFormat('MMM d').format(selectedDate!)
-                          : "Select Date"),
-                    ),
-                    onPressed: () {
-                      _selectDate(context);
-                    }),
-              ],
-            ),
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
@@ -124,12 +88,12 @@ class EditTaskScreenState extends State<EditTaskScreen> {
                       ),
                     )),
                 onPressed: () {
-                  Provider.of<JournalData>(context, listen: false).addTask(Task(
-                    taskName: text!,
-                    dueDate: selectedDate,
-                    description: description,
-                  ));
-                  Navigator.pop(context);
+                  if(text != null){
+                    widget.task.setName(text!);
+                    Provider.of<TaskData>(context, listen: false).updateTaskList();
+                    Navigator.pop(context);
+                  }
+
                 }),
           ],
         ),

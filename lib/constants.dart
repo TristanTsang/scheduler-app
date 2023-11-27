@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 const Color kLightGrey = Color(0xffD0D0D0);
 const Color kDarkGrey = Color(0xff696969);
 const Color kGrey = Color(0xff909090);
-
+const Color backgroundColor = Color(0xffF5F5F5);
 
 //App Theme//
 Color kPrimaryColor = Color(0xff000000);
