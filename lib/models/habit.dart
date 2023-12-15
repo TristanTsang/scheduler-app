@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'package:improvement_journal/extensions.dart';
+import 'package:intl/intl.dart';
 
 class Habit {
   int _highestStreak = 0;
@@ -7,7 +8,7 @@ class Habit {
   void setEndDate(DateTime value) {
     _endDate = value;
   }
-
+  int? id;
   late String _name;
   late DateTime _startDate;
   late DateTime _endDate;
@@ -23,6 +24,7 @@ class Habit {
   int get highestStreak => _highestStreak;
 
   Habit(String name, int duration) {
+
     _name = name;
     _startDate = DateTime.now();
     _endDate = DateTime.now().add(Duration(days: duration));
@@ -33,7 +35,25 @@ class Habit {
     _startDate = startDate;
     _endDate = endDate;
   }
+  Habit.fromMap(Map<String, dynamic> map){
+    id = map['id'];
+    _name = map['name'];
+    _startDate = map['startDate'];
+    _endDate = map['endDate'];
+  }
 
+  Map<String, dynamic> toMap(){
+    var map = <String, Object?>{
+      'name': _name,
+      'startDate':  DateFormat("dd-MM-yyyy").format(_startDate),
+      'endDate': DateFormat("dd-MM-yyyy").format(_endDate),
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+
+    return map;
+  }
   bool isTracked(DateTime date) {
     return ((date.isAfter(_startDate) || date.isSameDate(_startDate)) && date.dateIsBefore(_endDate) && date.dateIsBefore(DateTime.now().add(Duration(days: 1))));
   }

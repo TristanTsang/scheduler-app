@@ -25,7 +25,7 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
       padding: const EdgeInsets.all(10),
       child: Padding(
         padding:
-        EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -42,9 +42,11 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
               },
             ),
             TextField(
-              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
               style: secondaryHeader,
-                keyboardType: TextInputType.number,
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                   hintText: "Habit Duration (days)",
                   hintStyle: secondarySubtitle,
@@ -73,11 +75,14 @@ class _AddHabitScreenState extends State<AddHabitScreen> {
                       ),
                     )),
                 onPressed: () {
-                  if(duration!= null && text !=null){
-                    Provider.of<HabitData>(context, listen: false).addHabit(Habit(text!, duration!));
+                  if (duration != null && text != null) {
+                    Provider.of<HabitData>(context, listen: false)
+                        .addHabit(Habit(
+                      text!,
+                      duration!,
+                    ));
                     Navigator.pop(context);
                   }
-
                 }),
           ],
         ),

@@ -10,8 +10,17 @@ import 'Providers/AppData.dart';
 import 'Providers/HabitData.dart';
 import 'Providers/JournalData.dart';
 import 'Providers/TaskData.dart';
+import 'dart:async';
+import 'package:flutter/widgets.dart';
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
-void main() {
+import 'Services/sqlite_service.dart';
+
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await SqliteService.initializeDB();
   runApp(
     const MyApp(),
   );

@@ -19,5 +19,4 @@ extension DateTimeExtensions on DateTime {
     if(year == other.year && month == other.month && day< other.day) return true;
     else return false;
   }
-
 }

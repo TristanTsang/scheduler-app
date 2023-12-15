@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
   late DateTime selectedDay;
   late JournalEntry selectedJournal;
   DateTime date = DateTime.now();
+
+
   @override
   String getDateText() {
     String text = "";

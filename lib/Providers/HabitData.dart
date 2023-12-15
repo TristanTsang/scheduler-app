@@ -1,42 +1,11 @@
 import 'dart:collection';
 import 'package:flutter/cupertino.dart';
 import 'package:improvement_journal/extensions.dart';
+import '../Services/sqlite_service.dart';
 import '../models/habit.dart';
 import '../models/journalEntry.dart';
 
 class HabitData extends ChangeNotifier {
-
-  final HashMap<DateTime, JournalEntry> _journalEntryMap =
-  HashMap<DateTime, JournalEntry>(equals: (DateTime a, DateTime b) {
-    return a.isSameDate(b);
-  }, hashCode: (DateTime date) {
-    return int.parse('${date.day}${date.month}${date.year}');
-  });
-
-  final List<String> _journalPrompts = [
-    "What am I grateful for today?",
-    "What difficulties or worries will I overcome today?",
-    "How can I use today to pursue my purpose or passions?",
-
-    "Reflect on today's events. What went well and what went wrong?",
-    "How will I improve tomorrow",
-    "Jot down any extra thoughts, emotions, or stories from today",
-  ];
-
-  JournalEntry getJournal(DateTime date) {
-    updateDate(date);
-    return _journalEntryMap[date]!;
-  }
-
-  void updateDate(DateTime date) {
-    _journalEntryMap.putIfAbsent(
-        date, () => JournalEntry(_journalPrompts));
-  }
-
-  void updateJournal() {
-    notifyListeners();
-  }
-
   final HashMap<DateTime, HashSet<Habit>> _dateMap =
       HashMap<DateTime, HashSet<Habit>>(equals: (DateTime a, DateTime b) {
     return a.isSameDate(b);
@@ -45,6 +14,8 @@ class HabitData extends ChangeNotifier {
 
   void addHabit(Habit habit) {
     _allHabits.add(habit);
+    SqliteService.insertHabit(habit);
+    print(SqliteService.habits());
     notifyListeners();
   }
 
