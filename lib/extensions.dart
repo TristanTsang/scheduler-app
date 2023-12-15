@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension DateTimeExtensions on DateTime {
   bool isSameDate(DateTime other) {
     return day == other.day &&  month == other.month  && year == other.year;
@@ -18,5 +20,16 @@ extension DateTimeExtensions on DateTime {
     if(year == other.year && month< other.month) return true;
     if(year == other.year && month == other.month && day< other.day) return true;
     else return false;
+  }
+
+  static String stringFormat(DateTime date ){
+    return DateFormat("dd-MM-yyyy").format(date);
+  }
+  static DateTime formatStringToDate(String str){
+    str.replaceAll("-", "");
+    int.parse(str.substring(0,2));
+    int.parse(str.substring(0,2));
+    int.parse(str);
+    return DateFormat("dd-MM-yyyy").format(this);
   }
 }

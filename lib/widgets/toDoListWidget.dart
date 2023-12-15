@@ -7,9 +7,7 @@ import 'package:provider/provider.dart';
 import '../Providers/AppData.dart';
 import '../Providers/TaskData.dart';
 import '../constants.dart';
-import '../Providers/journalData.dart';
 import '../models/TaskList.dart';
-import '../models/journalEntry.dart';
 import '../models/task.dart';
 import '../screens/addTaskScreen.dart';
 
