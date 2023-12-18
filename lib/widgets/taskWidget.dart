@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/constants.dart';
+import 'package:improvement_journal/extensions.dart';
 import 'package:improvement_journal/widgets/tag.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -33,6 +35,7 @@ class SimpleTaskWidget extends StatelessWidget {
           value: task.done,
           onChanged: (bool? value) {
             task.toggleDone();
+            SqliteService.updateTask(task,DateTimeExtensions.stringFormat( Provider.of<AppData>(context, listen: false).getSelectedDay()));
             Provider.of<TaskData>(context, listen: false).updateTaskList();
           },
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -43,6 +46,7 @@ class SimpleTaskWidget extends StatelessWidget {
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
         onLongPress: (){
             Provider.of<TaskData>(context, listen: false).getTaskList(date).removeTask(task);
+            SqliteService.deleteTask(task);
             Provider.of<TaskData>(context, listen: false).updateTaskList();
           },
           constraints: BoxConstraints(),

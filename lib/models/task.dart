@@ -1,6 +1,7 @@
 
 class Task {
   late String _taskName;
+  int? id;
   String? _description;
   bool _done = false;
   DateTime? _dueDate;
@@ -14,6 +15,12 @@ class Task {
     _priority = priority;
   }
 
+  Task.fromMap(Map<String, dynamic> map){
+    id = map['id'];
+    _taskName = map['name'];
+    _done = map['done'] == 1;
+  }
+
   String? get label => _label;
 
   String? get description => _description;
@@ -25,6 +32,7 @@ class Task {
   String get taskName => _taskName;
 
   bool get done => _done;
+
 
   void toggleDone(){
     _done = !done;

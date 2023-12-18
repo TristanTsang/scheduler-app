@@ -3,16 +3,18 @@ import 'dart:convert';
 
 import 'package:improvement_journal/models/task.dart';
 
+import 'JournalPrompt.dart';
+
 class JournalEntry {
-  late List<String> _journalPrompts;
   late String _jsonJournalString;
+  int? id;
 
-  JournalEntry(List<String> journalPrompts){
-    _journalPrompts = journalPrompts;
-    List<Map<String, dynamic>> jsonFile = <Map<String, dynamic>>[];
+  JournalEntry(List<JournalPrompt> journalPrompts){
 
-    for(String prompt in _journalPrompts){
-      jsonFile.add({'insert': '$prompt\n', 'attributes': {"bold": true, "size": "20"}});
+    List<Map<String, dynamic>> jsonFile = <Map<String, dynamic>>[{'insert': '\n'}];
+
+    for(JournalPrompt prompt in journalPrompts){
+      jsonFile.add({'insert': '${prompt.text}\n', 'attributes': {"bold": true, "size": "20"}});
       jsonFile.add({'insert' : '\n'});
       jsonFile.add({'insert' : '\n'});
       jsonFile.add({'insert' : '\n'});
@@ -20,6 +22,21 @@ class JournalEntry {
       jsonFile.add({'insert' : '\n'});
     }
     _jsonJournalString = jsonEncode(jsonFile);
+  }
+
+  Map<String, Object?> toMap(){
+    var map = <String, Object?>{
+      'journalString': _jsonJournalString,
+   };
+    if(id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+  JournalEntry.fromMap(Map<String, dynamic> map){
+    id = map['id'];
+    _jsonJournalString = map['journalString'];
+
   }
 
   void editFile( String text){
@@ -30,5 +47,5 @@ class JournalEntry {
     return _jsonJournalString;
   }
 
-  List<String> get journalPrompts => _journalPrompts;
+
 }

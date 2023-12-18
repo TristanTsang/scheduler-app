@@ -6,21 +6,26 @@ import '../models/habit.dart';
 import '../models/journalEntry.dart';
 
 class HabitData extends ChangeNotifier {
-  final HashMap<DateTime, HashSet<Habit>> _dateMap =
-      HashMap<DateTime, HashSet<Habit>>(equals: (DateTime a, DateTime b) {
-    return a.isSameDate(b);
-  }, );
+
   final _allHabits = HashSet<Habit>();
 
   void addHabit(Habit habit) {
     _allHabits.add(habit);
     SqliteService.insertHabit(habit);
-    print(SqliteService.habits());
     notifyListeners();
   }
 
+  void loadHabits(List<Habit> list){
+    _allHabits.addAll(list);
+  }
+
+
   void removeHabit(Habit habit) {
     _allHabits.remove(habit);
+    for(DateTime date in habit.dateSet){
+      SqliteService.deleteHabitDate(habit, DateTimeExtensions.stringFormat(date));
+    }
+    SqliteService.deleteHabit(habit);
     notifyListeners();
   }
 
@@ -31,21 +36,20 @@ class HabitData extends ChangeNotifier {
   }
 
   HashSet<Habit>? getHabits(DateTime date) {
-    _updateDate(date);
-    return _dateMap[date];
+    HashSet<Habit>? mySet = HashSet<Habit>();
+    for (Habit habit in _allHabits){
+      if(habit.isTracked(date))
+        mySet.add(habit);
+    }
+    if(mySet.isEmpty) mySet = null;
+
+    return mySet;
+
   }
 
   HashSet<Habit> getAllHabits() {
     return _allHabits;
   }
 
-   void _updateDate(DateTime date) {
-     var mySet = HashSet<Habit>();
-     for(Habit item in _allHabits){
-       if(item.isTracked(date) == true){
-         mySet.add(item);
-       }
-     }
-     _dateMap[date]= mySet;
-  }
+
 }

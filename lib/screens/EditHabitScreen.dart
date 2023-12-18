@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:provider/provider.dart';
 import '../Providers/HabitData.dart';
 import '../constants.dart';
@@ -104,6 +105,7 @@ class _EditHabitScreenState extends State<EditHabitScreen> {
                         if(duration!= null && text !=null){
                           widget.habit.setName(text!);
                           widget.habit.setEndDate( widget.habit.startDate.add(Duration(days: duration!)));
+                          SqliteService.updateHabit(widget.habit);
                           Provider.of<HabitData>(context, listen: false).updateHabit();
                           Navigator.pop(context);
                         }

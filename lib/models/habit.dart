@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
 
@@ -27,7 +28,7 @@ class Habit {
 
     _name = name;
     _startDate = DateTime.now();
-    _endDate = DateTime.now().add(Duration(days: duration));
+    _endDate = DateTime.now().add(Duration(days: duration-1));
   }
 
   Habit.fromDates(String name, DateTime startDate, DateTime endDate) {
@@ -35,18 +36,19 @@ class Habit {
     _startDate = startDate;
     _endDate = endDate;
   }
+
   Habit.fromMap(Map<String, dynamic> map){
     id = map['id'];
     _name = map['name'];
-    _startDate = map['startDate'];
-    _endDate = map['endDate'];
+    _startDate = DateTimeExtensions.formatStringToDate(map['startDate']);
+    _endDate = DateTimeExtensions.formatStringToDate(map['endDate']);
   }
 
   Map<String, dynamic> toMap(){
     var map = <String, Object?>{
       'name': _name,
-      'startDate':  DateFormat("dd-MM-yyyy").format(_startDate),
-      'endDate': DateFormat("dd-MM-yyyy").format(_endDate),
+      'startDate':  DateTimeExtensions.stringFormat(_startDate),
+      'endDate': DateTimeExtensions.stringFormat(_endDate),
     };
     if (id != null) {
       map['id'] = id;
@@ -64,10 +66,13 @@ class Habit {
 
   addDate(DateTime date) {
     dateSet.add(date);
+    SqliteService.insertHabitDate(this, DateTimeExtensions.stringFormat(date));
   }
 
   removeDate(DateTime date) {
     dateSet.remove(date);
+
+    SqliteService.deleteHabitDate(this, DateTimeExtensions.stringFormat(date));
   }
 
   String get name => _name;
@@ -102,4 +107,8 @@ class Habit {
   HashSet<DateTime> get dateSet => _dateSet;
 
   DateTime get endDate => _endDate;
+  @override
+  String toString() {
+    return 'Habit{id: $id, name: $name, startDate: ${DateTimeExtensions.stringFormat(_endDate)}, endDate: ${DateTimeExtensions.stringFormat(_endDate)}';
+  }
 }

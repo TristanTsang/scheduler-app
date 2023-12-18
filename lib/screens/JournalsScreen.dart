@@ -38,13 +38,6 @@ class _JournalsScreenState extends State<JournalsScreen> {
     var journalObjects = <Widget>[];
     map!.forEach((date, journalEntry) {
       var text = <Widget>[];
-      journalEntry.journalPrompts.forEach((item) {
-        text.add(Text(
-          item,
-          overflow: TextOverflow.ellipsis,
-          style: secondarySubtitle.copyWith(color: kDarkGrey, fontSize: 12),
-        ));
-      });
       journalObjects.add(Padding(
         padding: EdgeInsets.all(5),
         child: RawMaterialButton(

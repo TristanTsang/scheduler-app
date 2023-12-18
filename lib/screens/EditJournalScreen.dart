@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/AppData.dart';
+import '../Services/sqlite_service.dart';
 import '../constants.dart';
 import '../Providers/JournalData.dart';
+import '../models/JournalPrompt.dart';
 
 class EditJournalScreen extends StatefulWidget {
-  String prompt;
-  EditJournalScreen({Key? key, required String this.prompt}) : super(key: key);
+  JournalPrompt prompt;
+  EditJournalScreen({Key? key, required JournalPrompt this.prompt}) : super(key: key);
 
   @override
   State<EditJournalScreen> createState() => _EditJournalScreenState();
@@ -28,7 +30,7 @@ class _EditJournalScreenState extends State<EditJournalScreen> {
           children: [
             TextField(
               controller:
-              TextEditingController(text: widget.prompt),
+              TextEditingController(text: widget.prompt.text),
               style: secondaryHeader,
               decoration: InputDecoration(
                   hintText: "Journal Prompt",
@@ -71,7 +73,8 @@ class _EditJournalScreenState extends State<EditJournalScreen> {
                   child: RawMaterialButton(
                     onPressed: () {
                         if(text !=null){
-                          Provider.of<JournalData>(context, listen:false).journalPrompts[Provider.of<JournalData>(context, listen:false).journalPrompts.indexOf(widget.prompt)] = text!;
+                          Provider.of<JournalData>(context, listen:false).journalPrompts[Provider.of<JournalData>(context, listen:false).journalPrompts.indexOf(widget.prompt)].text= text!;
+                          SqliteService.deletePrompt(widget.prompt);
                           Provider.of<JournalData>(context, listen:false).updateJournal();
                         }
                         Navigator.pop(context);

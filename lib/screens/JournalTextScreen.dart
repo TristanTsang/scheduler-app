@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
+import 'package:improvement_journal/Services/sqlite_service.dart';
+import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../Providers/AppData.dart';
@@ -47,6 +49,7 @@ class _JournalTextScreenState extends State<JournalTextScreen> {
     _controller.document = Document.fromJson(jsonDecode(journal.getFile()));
     _controller.document.changes.listen((event) {
       journal.editFile(jsonEncode(_controller.document.toDelta().toJson()));
+      SqliteService.updateJournal(journal, DateTimeExtensions.stringFormat(selectedDate));
     });
     return QuillProvider(
       configurations: QuillConfigurations(

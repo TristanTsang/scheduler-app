@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:improvement_journal/Providers/AppData.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/TaskData.dart';
+import '../Services/sqlite_service.dart';
 import '../constants.dart';
 import '../Providers/journalData.dart';
+import '../extensions.dart';
 import '../models/task.dart';
 
 class EditTaskScreen extends StatefulWidget {
@@ -90,6 +93,7 @@ class EditTaskScreenState extends State<EditTaskScreen> {
                 onPressed: () {
                   if(text != null){
                     widget.task.setName(text!);
+                    SqliteService.updateTask(widget.task, DateTimeExtensions.stringFormat(Provider.of<AppData>(context, listen: false).getSelectedDay()));
                     Provider.of<TaskData>(context, listen: false).updateTaskList();
                     Navigator.pop(context);
                   }

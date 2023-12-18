@@ -25,11 +25,13 @@ extension DateTimeExtensions on DateTime {
   static String stringFormat(DateTime date ){
     return DateFormat("dd-MM-yyyy").format(date);
   }
+
   static DateTime formatStringToDate(String str){
-    str.replaceAll("-", "");
-    int.parse(str.substring(0,2));
-    int.parse(str.substring(0,2));
-    int.parse(str);
-    return DateFormat("dd-MM-yyyy").format(this);
+    str = str.replaceAll("-", "");
+
+    int day = int.parse(str.substring(0,2));
+    int month = int.parse(str.substring(2,4));
+    int year = int.parse(str.substring(4));
+    return  DateTime(year, month, day);
   }
 }

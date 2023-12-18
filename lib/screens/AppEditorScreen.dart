@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../Providers/JournalData.dart';
 import '../constants.dart';
 import '../Providers/HabitData.dart';
+import '../models/JournalPrompt.dart';
 import '../models/habit.dart';
 import '../models/journalEntry.dart';
 import '../widgets/HabitWidget.dart';
@@ -104,7 +105,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
       ));
     }
 
-    for (String journal
+    for (JournalPrompt journal
         in Provider.of<JournalData>(context, listen: true).journalPrompts) {
       myPrompts.add(Padding(
         padding: EdgeInsets.all(5),
@@ -136,7 +137,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                     ),
                     Flexible(
                       child: Text(
-                        journal,
+                        journal.text,
                         style: secondaryHeader,
                       ),
                     ),

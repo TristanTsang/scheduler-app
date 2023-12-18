@@ -115,8 +115,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     )),
                 onPressed: () {
                   if(text !=null){
-                    Provider.of<TaskData>(context, listen: false).getTaskList(date).addTask(Task(
-                      taskName: text!,));
+                    Provider.of<TaskData>(context, listen: false).addTask(Task(
+                      taskName: text!,), date);
                     Provider.of<TaskData>(context, listen: false).updateTaskList();
                     Navigator.pop(context);
                   }

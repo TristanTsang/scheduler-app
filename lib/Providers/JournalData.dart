@@ -1,7 +1,9 @@
 import 'dart:collection';
 
 import 'package:flutter/cupertino.dart';
+import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
+import '../models/JournalPrompt.dart';
 import '../models/journalEntry.dart';
 
 class JournalData extends ChangeNotifier {
@@ -12,18 +14,23 @@ class JournalData extends ChangeNotifier {
     return int.parse('${date.day}${date.month}${date.year}');
   });
 
-  final List<String> _journalPrompts = [
-    "What am I grateful for today?",
-    "What difficulties or worries will I overcome today?",
-    "How can I use today to pursue my purpose or passions?",
-    "Reflect on today's events. What went well and what went wrong?",
-    "How will I improve tomorrow",
-    "Jot down any extra thoughts, emotions, or stories from today",
-  ];
+
+  final List<JournalPrompt> _journalPrompts = [];
 
   void addPrompt(String text) {
-    journalPrompts.add(text);
+    var prompt = JournalPrompt(text);
+    journalPrompts.add(prompt);
+    SqliteService.insertPrompt(prompt);
+
     notifyListeners();
+  }
+  void loadPrompts(List<JournalPrompt> list) {
+    for (var element in list) {_journalPrompts.add(element);}
+  }
+
+
+  void loadJournals(Map<DateTime, JournalEntry> other){
+    _journalEntryMap.addAll(other);
   }
 
   LinkedHashMap<DateTime, JournalEntry> getSortedJournalMap() {
@@ -45,11 +52,12 @@ class JournalData extends ChangeNotifier {
   void updateDate(DateTime date) {
     if(!_journalEntryMap.containsKey(date)){
       _journalEntryMap.putIfAbsent(date, () => JournalEntry(_journalPrompts));
+      SqliteService.insertJournalEntry(_journalEntryMap[date]!, DateTimeExtensions.stringFormat(date));
       notifyListeners();
     }
   }
 
-  List<String> get journalPrompts => _journalPrompts;
+  List<JournalPrompt> get journalPrompts => _journalPrompts;
 
   void updateJournal() {
     notifyListeners();
