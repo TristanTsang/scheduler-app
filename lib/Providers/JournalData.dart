@@ -53,7 +53,6 @@ class JournalData extends ChangeNotifier {
     if(!_journalEntryMap.containsKey(date)){
       _journalEntryMap.putIfAbsent(date, () => JournalEntry(_journalPrompts));
       SqliteService.insertJournalEntry(_journalEntryMap[date]!, DateTimeExtensions.stringFormat(date));
-      notifyListeners();
     }
   }
 

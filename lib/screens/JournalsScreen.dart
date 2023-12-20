@@ -45,7 +45,8 @@ class _JournalsScreenState extends State<JournalsScreen> {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => JournalTextScreen(date: date)));
+                    builder: (context) => JournalTextScreen(date: date, journal: Provider.of<JournalData>(context, listen: false)
+                        .getJournal(date),)));
           },
           child: Container(
             decoration: BoxDecoration(
@@ -112,7 +113,8 @@ class _JournalsScreenState extends State<JournalsScreen> {
               context,
               MaterialPageRoute(
                   builder: (context) =>
-                      JournalTextScreen(date: DateTime.now()))).then((_) => setState(() {}));
+                      JournalTextScreen(date: DateTime.now(), journal: Provider.of<JournalData>(context, listen: false)
+                          .getJournal(DateTime.now()),))).then((_) => setState(() {}));
         },
       ),
       appBar: PreferredSize(

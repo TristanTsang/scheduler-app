@@ -5,9 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/AppData.dart';
-import '../constants.dart';
-import '../Providers/journalData.dart';
-import '../screens/AppEditorScreen.dart';
+import '../Providers/JournalData.dart';
 import '../screens/JournalTextScreen.dart';
 
 class JournalButton extends StatelessWidget {
@@ -18,7 +16,7 @@ class JournalButton extends StatelessWidget {
     return RawMaterialButton(
       onPressed: (){
         if( Provider.of<AppData>(context, listen: false).getSelectedDay().dateIsBefore(DateTime.now()) ||  Provider.of<AppData>(context, listen: false).getSelectedDay().isSameDate(DateTime.now())){
-          Navigator.push(context, MaterialPageRoute(builder: (context) => JournalTextScreen(date: Provider.of<AppData>(context, listen: false).getSelectedDay())));
+          Navigator.push(context, MaterialPageRoute(builder: (context) => JournalTextScreen(date: Provider.of<AppData>(context, listen: false).getSelectedDay(), journal: Provider.of<JournalData>(context, listen: false).getJournal(Provider.of<AppData>(context, listen: false).getSelectedDay()))));
         }
 
       },

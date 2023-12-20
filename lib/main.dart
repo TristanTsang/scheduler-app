@@ -4,6 +4,7 @@ import 'package:flutter_quill/translations.dart';
 import 'package:improvement_journal/screens/AnalyticsScreen.dart';
 import 'package:improvement_journal/screens/AppEditorScreen.dart';
 import 'package:improvement_journal/screens/JournalsScreen.dart';
+import 'package:improvement_journal/screens/LoadingScreen.dart';
 import 'package:improvement_journal/screens/homeScreen.dart';
 import 'package:provider/provider.dart';
 import 'Providers/AppData.dart';
@@ -52,38 +53,9 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
 
-  var _habits = <Habit>[];
-  var _journalPrompts = <JournalPrompt>[];
-  var _journalMap =  new Map<DateTime, JournalEntry>();
-  var _taskListMap =  new Map<DateTime, TaskList>();
-
-  Future<void> initializeHabits() async {
-    for(Habit habit in await SqliteService.habits()){
-    _habits.add(habit);
-      for(DateTime date in await SqliteService.habitDates(habit)){
-        habit.addDate(date);
-      }
-    }
-    for(JournalPrompt prompt in await SqliteService.journalPrompts()){
-      _journalPrompts.add(prompt);
-    }
-    _journalMap.addAll(await SqliteService.journalsMap());
-    _taskListMap.addAll(await SqliteService.taskListsMap());
-
-}
-  @override void initState()  {
-
-    // TODO: implement initState
-    super.initState();
-    initializeHabits();
-
-  }
   @override
   Widget build(BuildContext context) {
-    Provider.of<HabitData>(context, listen:false).loadHabits(_habits);
-    Provider.of<JournalData>(context, listen:false).loadPrompts(_journalPrompts);
-    Provider.of<JournalData>(context, listen: false).loadJournals(_journalMap);
-    Provider.of<TaskData>(context, listen: false).loadTasks(_taskListMap);
+
 
     return MaterialApp(
       localizationsDelegates: const [
@@ -105,12 +77,13 @@ class _MyAppState extends State<MyApp> {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      initialRoute: 'homeScreen',
+      initialRoute: 'loadingScreen',
       routes: {
         'homeScreen': (context) => HomeScreen(),
         'settings': (context) => AppEditorScreen(),
         'analytics': (context) => AnalyticsScreen(),
         'journals': (context) => JournalsScreen(),
+        'loadingScreen': (context) => LoadingScreen(),
       },
     );
   }

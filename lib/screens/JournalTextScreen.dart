@@ -15,7 +15,9 @@ import '../models/journalEntry.dart';
 
 class JournalTextScreen extends StatefulWidget {
   DateTime date;
-  JournalTextScreen({Key? key, required this.date}) : super(key: key);
+
+  JournalEntry journal;
+  JournalTextScreen({Key? key, required this.date, required this.journal}) : super(key: key);
 
   @override
   State<JournalTextScreen> createState() => _JournalTextScreenState();
@@ -43,13 +45,12 @@ class _JournalTextScreenState extends State<JournalTextScreen> {
   late QuillController _controller;
   Widget build(BuildContext context) {
     DateTime selectedDate = widget.date;
-    JournalEntry journal = Provider.of<JournalData>(context, listen: true)
-        .getJournal(selectedDate);
 
-    _controller.document = Document.fromJson(jsonDecode(journal.getFile()));
+
+    _controller.document = Document.fromJson(jsonDecode(widget.journal.getFile()));
     _controller.document.changes.listen((event) {
-      journal.editFile(jsonEncode(_controller.document.toDelta().toJson()));
-      SqliteService.updateJournal(journal, DateTimeExtensions.stringFormat(selectedDate));
+      widget.journal.editFile(jsonEncode(_controller.document.toDelta().toJson()));
+      SqliteService.updateJournal(widget.journal, DateTimeExtensions.stringFormat(selectedDate));
     });
     return QuillProvider(
       configurations: QuillConfigurations(
