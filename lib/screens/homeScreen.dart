@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:improvement_journal/constants.dart';
@@ -11,9 +12,11 @@ import '../Providers/journalData.dart';
 import '../models/journalEntry.dart';
 import '../models/task.dart';
 import '../widgets/JournalButton.dart';
+import '../widgets/QuoteWidget.dart';
 import '../widgets/habitTrackerWidget.dart';
 import '../widgets/taskWidget.dart';
 import '../widgets/toDoListWidget.dart';
+import 'AppEditorScreen.dart';
 import 'addTaskScreen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,9 +56,6 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedIndex = index;
     });
-    if(index ==0){
-      Navigator.popAndPushNamed(context, "homeScreen");
-    }
     if(index ==1){
       Navigator.popAndPushNamed(context, 'journals');
     }
@@ -71,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Provider.of<AppData>(context, listen: true).getSelectedDay();
 
     return Scaffold(
-      backgroundColor: Color(0xffF5F5F5),
+      backgroundColor: backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(10.0),
@@ -94,6 +94,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Divider(height: 25, thickness: 2,),
               toDoListWidget(),
 
+              Divider(height: 30, thickness: 2,),
+              QuoteWidget(),
 
             ],
           ),
@@ -107,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(icon: Icon(Icons.description), label: "Journals"),
 
           BottomNavigationBarItem(icon: Icon(Icons.bar_chart), label: "Analytics"),
-          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
+          //BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Settings"),
         ],
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle: TextStyle(fontSize:15, fontWeight: FontWeight.bold),
@@ -131,30 +133,33 @@ class CalendarTimeline extends StatefulWidget {
 }
 
 class _CalendarTimelineState extends State<CalendarTimeline> {
-  List<Widget> displayWeek(DateTime initialDate, Function myFunc) {
+  late int _index;
+
+  List<Widget> displayWeek(DateTime startDate, Function myFunc) {
+    DateTime date = DateTimeExtensions.mostRecentMonday(startDate);
+    int numWeeks = DateTimeExtensions.daysBetween(date, DateTimeExtensions.mostRecentMonday(DateTime.now())) % 7;
+
     List<Widget> weekWidgets = [];
-    for (int j = 0; j < 3; j++) {
+    for (int week = 0; week <= numWeeks+2; week++) {
       List<Widget> dateWidgets = [];
 
-      for (int i = 0; i < 7; i++) {
+      for (int day = 0; day < 7; day++) {
+        if(DateTime(date.year,date.month, date.day).add(Duration(days: day + week*7,)).isSameDate( DateTimeExtensions.mostRecentMonday(DateTime.now()))){
+          _index = week;
+        }
+
         dateWidgets.add(DateWidget(
           date: DateTime(
-              initialDate.year, initialDate.month, initialDate.day + i + 7*(j-1)),
+            date.year,date.month, date.day).add(Duration(days: day + week*7,)),
           selectedDate:
               Provider.of<AppData>(context, listen: true).getSelectedDay(),
         ));
       }
 
-      weekWidgets.add(SizedBox(
-        width: MediaQuery.of(context).size.width*0.95,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: dateWidgets,
-          ),
-        ),
+      weekWidgets.add(Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: dateWidgets,
       ));
     }
 
@@ -179,12 +184,13 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
     );
     var children = displayWeek(weekDate, myFunc);
     return ScrollablePositionedList.builder(
-      initialScrollIndex: 1,
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      initialScrollIndex: _index,
       itemScrollController: ItemScrollController(),
       scrollDirection: Axis.horizontal,
       physics: const PageScrollPhysics(), // this for snapping
       itemCount: children.length,
-      itemBuilder: (_, index) => children[index],
+      itemBuilder: (_, index) => SizedBox(width: MediaQuery.of(context).size.width*0.95,child: children[index]),
     );
   }
 }
@@ -209,18 +215,18 @@ class DateWidget extends StatelessWidget {
       color: date.isSameDate(DateTime.now())
           ? currentDayColor
           : (date.isBefore(DateTime.now()) ? beforeDayColor : afterDayColor),
-      fontSize: MediaQuery.of(context).size.width * 0.03,
+      fontSize: MediaQuery.of(context).size.width *0.04,
     );
     TextStyle numStyle = TextStyle(
         color: date.isSameDate(DateTime.now())
             ? currentDayColor
             : (date.isBefore(DateTime.now()) ? beforeDayColor : afterDayColor),
-        fontSize: MediaQuery.of(context).size.width * 0.045,
+        fontSize: MediaQuery.of(context).size.width * 0.05,
         fontWeight: FontWeight.bold);
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.1,
-      height: MediaQuery.of(context).size.height * 0.07,
+      height: MediaQuery.of(context).size.height * 0.7,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5),
         border: Border.all(

@@ -29,6 +29,10 @@ class SqliteService {
         await database.execute(
           'CREATE TABLE journalPrompts(id INTEGER PRIMARY KEY AUTOINCREMENT, prompt TEXT)',
         );
+
+        await database.execute(
+          'CREATE TABLE dates(id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT)',
+        );
         List<JournalPrompt> _journalPrompts = [
           JournalPrompt("What am I grateful for today?"),
           JournalPrompt("What difficulties or worries will I overcome today?"),
@@ -42,6 +46,7 @@ class SqliteService {
               'journalPrompts', {'prompt': prompt.text},
               conflictAlgorithm: ConflictAlgorithm.replace);
         }
+        SqliteService.insertDay(DateTimeExtensions.stringFormat(DateTime.now()));
       },
       version: 1,
     );
@@ -215,6 +220,31 @@ class SqliteService {
     });
   }
 
+  /*
+  static insertWeek(DateTime date) async {
+    final Database db = await initializeDB();
+    var queryResult = await db.rawQuery('SELECT * FROM dates WHERE date="$date"');
+    if(queryResult.isEmpty){
+      for(int i =0; i<7;i++){
+        String newDate = DateTimeExtensions.stringFormat(DateTimeExtensions.mostRecentMonday(date).add(Duration(days: i)));
+        await db.insert(
+            'dates', {'date': newDate},
+            conflictAlgorithm: ConflictAlgorithm.replace);
+      }
+    }
+  }*/
+  static insertDay(String date) async {
+    final Database db = await initializeDB();
+    await db.insert(
+        'dates', {'date': date},
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
 
+  static Future<DateTime> startDate() async {
+    final db = await initializeDB();
+    final List<Map<String, dynamic>> maps = await db
+        .query('dates', where: 'id = ?', whereArgs: [1]);
+    return DateTimeExtensions.formatStringToDate(maps[0]['date']);
+  }
 
 }

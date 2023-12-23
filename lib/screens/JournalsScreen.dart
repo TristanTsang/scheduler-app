@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../Providers/JournalData.dart';
 import '../constants.dart';
 import '../models/journalEntry.dart';
+import 'AppEditorScreen.dart';
 import 'JournalTextScreen.dart';
 
 class JournalsScreen extends StatefulWidget {
@@ -25,9 +26,6 @@ class _JournalsScreenState extends State<JournalsScreen> {
     });
     if (index == 0) {
       Navigator.popAndPushNamed(context, "homeScreen");
-    }
-    if (index == 1) {
-      Navigator.popAndPushNamed(context, 'journals');
     }
     if (index == 2) {
       Navigator.popAndPushNamed(context, 'analytics');
@@ -135,8 +133,6 @@ class _JournalsScreenState extends State<JournalsScreen> {
               icon: Icon(Icons.description), label: "Journals"),
           BottomNavigationBarItem(
               icon: Icon(Icons.bar_chart), label: "Analytics"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), label: "Settings"),
         ],
         type: BottomNavigationBarType.fixed,
         selectedLabelStyle:
@@ -153,7 +149,7 @@ class _JournalsScreenState extends State<JournalsScreen> {
       body: ListView(padding: EdgeInsets.zero, children: [
         Container(
           color: Colors.black,
-          height: MediaQuery.of(context).size.height * 0.3,
+          height: MediaQuery.of(context).size.height * 0.2,
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),

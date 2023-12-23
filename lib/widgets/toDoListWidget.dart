@@ -27,6 +27,7 @@ class toDoListWidget extends StatelessWidget {
     DateTime date = Provider.of<AppData>(context, listen: true).getSelectedDay();
     TaskList taskList =
         Provider.of<TaskData>(context, listen: true).getTaskList(date);
+    List<Widget> list = addTaskWidgets(taskList.getTasks());
     return Material(
       elevation: 2,
         borderRadius: BorderRadius.circular(10),
@@ -50,15 +51,6 @@ class toDoListWidget extends StatelessWidget {
                         Text(
                           "Today's Tasks:",
                           style: secondaryHeader,),
-                        DropdownButton(
-
-                          underline: SizedBox(),
-                          elevation: 0,
-                          isDense: true,
-                          items: <DropdownMenuItem<String>>[],
-                          onChanged: (Object? value) {},
-                          hint: Text("Filter"),
-                        ),
                       ],
                     ),
 
@@ -74,8 +66,9 @@ class toDoListWidget extends StatelessWidget {
                   padding: const EdgeInsets.only(left: 10, right: 10, bottom: 15),
                   child: Stack(children: [
                     ListView(
+                      physics: list.isEmpty? const NeverScrollableScrollPhysics() : const ScrollPhysics(),
                       padding: EdgeInsets.zero,
-                      children: addTaskWidgets(taskList.getTasks()),
+                      children: list,
                     ),
                     Align(
                       alignment: Alignment.bottomRight,

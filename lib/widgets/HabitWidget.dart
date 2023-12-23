@@ -41,7 +41,7 @@ class HabitWidget extends StatelessWidget {
           child: Text(habit.name,overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  color:  (habit.isDone(date) || !date.isSameDate(DateTime.now()))? kLightGrey:  Colors.white,
+                  color:  (habit.isDone(date))? kLightGrey:  Colors.white,
                   fontSize: 15,
               decoration: habit.isDone(date)? TextDecoration.lineThrough : TextDecoration.none,
               decorationThickness: 2),),

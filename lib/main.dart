@@ -7,6 +7,7 @@ import 'package:improvement_journal/screens/JournalsScreen.dart';
 import 'package:improvement_journal/screens/LoadingScreen.dart';
 import 'package:improvement_journal/screens/homeScreen.dart';
 import 'package:provider/provider.dart';
+import 'package:sqflite/sqflite.dart';
 import 'Providers/AppData.dart';
 import 'Providers/HabitData.dart';
 import 'Providers/JournalData.dart';

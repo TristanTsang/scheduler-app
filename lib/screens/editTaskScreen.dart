@@ -39,22 +39,28 @@ class EditTaskScreenState extends State<EditTaskScreen> {
 
   @override
   Widget build(BuildContext context) {
+    text = widget.task.taskName;
     return Padding(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(20),
       child: Padding(
         padding:
             EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Align(alignment: Alignment.centerLeft, child: Text("Edit Task", style: secondaryHeader,)),
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Edit Task",
+                  style: secondaryHeader,
+                )),
             Row(
               children: [
                 SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: Icon(Icons.check_box,color: kPrimaryColor, size:22.5)
-                ),
+                    width: 30,
+                    height: 30,
+                    child: Icon(Icons.check_box,
+                        color: kPrimaryColor, size: 22.5)),
                 Expanded(
                   child: TextField(
                     controller:
@@ -76,34 +82,70 @@ class EditTaskScreenState extends State<EditTaskScreen> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.02,
             ),
-            RawMaterialButton(
-                child: Container(
-                    width: MediaQuery.of(context).size.width * 0.67,
-                    height: MediaQuery.of(context).size.height * 0.055,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      color: kPrimaryColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Save",
-                        style: defaultStyle.copyWith(color: Colors.white),
-                      ),
-                    )),
-                onPressed: () {
-                  if(text != null){
-                    widget.task.setName(text!);
-                    SqliteService.updateTask(widget.task, DateTimeExtensions.stringFormat(Provider.of<AppData>(context, listen: false).getSelectedDay()));
-                    Provider.of<TaskData>(context, listen: false).updateTaskList();
-                    Navigator.pop(context);
-                  }
-
-                }),
+            Row(
+              children: [
+                Expanded(
+                  child: RawMaterialButton(
+                    onPressed: () {
+                      Provider.of<TaskData>(context, listen: false)
+                          .getTaskList(
+                              Provider.of<AppData>(context, listen: false)
+                                  .getSelectedDay())
+                          .removeTask(widget.task);
+                      SqliteService.deleteTask(widget.task);
+                      Provider.of<TaskData>(context, listen: false)
+                          .updateTaskList();
+                      Navigator.pop(context);
+                    },
+                    child: Container(
+                        height: MediaQuery.of(context).size.height * 0.055,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(25),
+                          color: Colors.black,
+                        ),
+                        child: const Center(
+                          child: Text(
+                            "Delete Task",
+                            style: TextStyle(color: Colors.white, fontSize: 15),
+                          ),
+                        )),
+                  ),
+                ),
+                SizedBox(width: 15,),
+                Expanded(
+                  child: RawMaterialButton(
+                      child: Container(
+                          width: MediaQuery.of(context).size.width * 0.67,
+                          height: MediaQuery.of(context).size.height * 0.055,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(25),
+                            color: kPrimaryColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Save",
+                              style: defaultStyle.copyWith(color: Colors.white),
+                            ),
+                          )),
+                      onPressed: () {
+                        if (text != null) {
+                          widget.task.setName(text!);
+                          SqliteService.updateTask(
+                              widget.task,
+                              DateTimeExtensions.stringFormat(
+                                  Provider.of<AppData>(context, listen: false)
+                                      .getSelectedDay()));
+                          Provider.of<TaskData>(context, listen: false)
+                              .updateTaskList();
+                          Navigator.pop(context);
+                        }
+                      }),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-

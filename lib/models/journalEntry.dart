@@ -14,7 +14,7 @@ class JournalEntry {
     List<Map<String, dynamic>> jsonFile = <Map<String, dynamic>>[{'insert': '\n'}];
 
     for(JournalPrompt prompt in journalPrompts){
-      jsonFile.add({'insert': '${prompt.text}\n', 'attributes': {"bold": true, "size": "20"}});
+      jsonFile.add({'insert': '${prompt.text}\n'});
       jsonFile.add({'insert' : '\n'});
       jsonFile.add({'insert' : '\n'});
       jsonFile.add({'insert' : '\n'});

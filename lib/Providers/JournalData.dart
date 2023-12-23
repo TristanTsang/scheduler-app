@@ -35,7 +35,7 @@ class JournalData extends ChangeNotifier {
 
   LinkedHashMap<DateTime, JournalEntry> getSortedJournalMap() {
     List mapKeys = _journalEntryMap.keys.toList(growable: false);
-    mapKeys.sort((k1, k2) => k1.compareTo(k2));
+    mapKeys.sort((k1, k2) => k2.compareTo(k1));
     LinkedHashMap<DateTime, JournalEntry> newMap =
         new LinkedHashMap<DateTime, JournalEntry>();
     mapKeys.forEach((k1) {

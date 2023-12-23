@@ -44,11 +44,6 @@ class SimpleTaskWidget extends StatelessWidget {
       Expanded(
         child: RawMaterialButton(
         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        onLongPress: (){
-            Provider.of<TaskData>(context, listen: false).getTaskList(date).removeTask(task);
-            SqliteService.deleteTask(task);
-            Provider.of<TaskData>(context, listen: false).updateTaskList();
-          },
           constraints: BoxConstraints(),
           onPressed: (){
             showModalBottomSheet(
