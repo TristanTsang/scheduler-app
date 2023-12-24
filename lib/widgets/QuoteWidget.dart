@@ -32,12 +32,12 @@ class QuoteWidget extends StatelessWidget {
       elevation: 10,
       borderRadius: BorderRadius.circular(10),
       child: Container(
+        height: 225,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Colors.white,
 
         ),
-        height: MediaQuery.of(context).size.height*0.25,
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal:25, vertical: 20),
           child: Center(

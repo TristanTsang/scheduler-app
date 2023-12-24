@@ -33,7 +33,7 @@ class HabitTrackerWidget extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => const AppEditorScreen()));
       },
       child: Container(
-          height: MediaQuery.of(context).size.height*0.15,
+          height: 150,
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(
               color: kPrimaryColor,
@@ -46,22 +46,18 @@ class HabitTrackerWidget extends StatelessWidget {
               children: [
                 Text("Habit Tracker:", style:TextStyle(color: Colors.white, fontSize:defaultFontSize, fontWeight: FontWeight.bold )),
                 Expanded(
-                  child: ListView(
-                    children: (myList.length==0)? [Center(
-                      child: Column(
-                        children: [
-                          Icon(Icons.light_mode, color: Colors.white, size:45),
-                          Text("No Habits Tracked For Today", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold ),),
-                          Text("Click To Add More!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
-                        ],
-                      )
-                    )] : myList,
-                  ),
-                ),
-              ],
+                  child:  (myList.length==0)?
+                  Center(
+                    child: Column(
+                      children: [
+                        Icon(Icons.light_mode, color: Colors.white, size:45),
+                        Text("No Habits Tracked For Today", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold ),),
+                        Text("Click To Add More!", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                      ]),
+                ) : ListView(children: myList,)
             ),
-          )
+  ])
       ),
-    );
+    ));
   }
 }
