@@ -30,7 +30,7 @@ class JournalButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children:  (Provider.of<AppData>(context, listen: false).getSelectedDay().dateIsBefore(DateTime.now()) ||  Provider.of<AppData>(context, listen: false).getSelectedDay().isSameDate(DateTime.now()))?
-      [Icon(Icons.book, size: 35, color: Colors.white), Text("Create Journal", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),)] : [Icon(Icons.lock, size: 20, color: Colors.white), SizedBox(width: 10), Text("Journal Unlocks On ${DateFormat.yMd().format(Provider.of<AppData>(context, listen: false).getSelectedDay())}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),)],
+      [Icon(Icons.book, size: 35, color: Colors.white), Text("Create Journal", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.white),)] : [Icon(Icons.lock, size: 20, color: Colors.white), SizedBox(width: 10), Text("Journal Unlocks On ${DateFormat.yMd().format(Provider.of<AppData>(context, listen: false).getSelectedDay())}", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15, color: Colors.white),)],
           ),
         ),
       ),
