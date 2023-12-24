@@ -7,22 +7,12 @@ import 'package:improvement_journal/screens/JournalsScreen.dart';
 import 'package:improvement_journal/screens/LoadingScreen.dart';
 import 'package:improvement_journal/screens/homeScreen.dart';
 import 'package:provider/provider.dart';
-import 'package:sqflite/sqflite.dart';
 import 'Providers/AppData.dart';
 import 'Providers/HabitData.dart';
 import 'Providers/JournalData.dart';
 import 'Providers/TaskData.dart';
-import 'dart:async';
-import 'package:flutter/widgets.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'Services/sqlite_service.dart';
-import 'models/JournalPrompt.dart';
-import 'models/TaskList.dart';
-import 'models/habit.dart';
-import 'models/journalEntry.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SqliteService.initializeDB();
@@ -80,11 +70,11 @@ class _MyAppState extends State<MyApp> {
       ),
       initialRoute: 'loadingScreen',
       routes: {
-        'homeScreen': (context) => HomeScreen(),
-        'settings': (context) => AppEditorScreen(),
-        'analytics': (context) => AnalyticsScreen(),
-        'journals': (context) => JournalsScreen(),
-        'loadingScreen': (context) => LoadingScreen(),
+        'homeScreen': (context) => const HomeScreen(),
+        'settings': (context) => const AppEditorScreen(),
+        'analytics': (context) => const AnalyticsScreen(),
+        'journals': (context) => const JournalsScreen(),
+        'loadingScreen': (context) => const LoadingScreen(),
       },
     );
   }

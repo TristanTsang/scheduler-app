@@ -8,8 +8,6 @@ import '../constants.dart';
 import '../Providers/HabitData.dart';
 import '../models/JournalPrompt.dart';
 import '../models/habit.dart';
-import '../models/journalEntry.dart';
-import '../widgets/HabitWidget.dart';
 import 'AddJournalScreen.dart';
 import 'EditHabitScreen.dart';
 import 'addHabitScreen.dart';
@@ -44,7 +42,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
     for (Habit habit
         in Provider.of<HabitData>(context, listen: true).getAllHabits()) {
       myList.add(Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: RawMaterialButton(
           onPressed: () {
             showModalBottomSheet(
@@ -60,7 +58,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
               color: Colors.white,
             ),
             child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -68,7 +66,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                       backgroundColor: Colors.black,
                       radius: 5,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25,
                     ),
                     Column(
@@ -86,7 +84,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                           children: [
                             Text(
                               "Consistency: ${habit.getAccuracy()}% \t Highest Streak: ${habit.highestStreak}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(fontWeight: FontWeight.bold),
                             )
                           ],
                         ),
@@ -108,7 +106,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
     for (JournalPrompt journal
         in Provider.of<JournalData>(context, listen: true).journalPrompts) {
       myPrompts.add(Padding(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         child: RawMaterialButton(
           onPressed: () {
             showModalBottomSheet(
@@ -124,7 +122,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
               color: Colors.white,
             ),
             child: Padding(
-                padding: EdgeInsets.all(10),
+                padding: const EdgeInsets.all(10),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -132,7 +130,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                       backgroundColor: Colors.black,
                       radius: 5,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 25,
                     ),
                     Flexible(
@@ -167,7 +165,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                     Navigator.pop(context);
                   },
                 ),
-                Text(
+                const Text(
                   "App Editor",
                   style: TextStyle(
                       color: Colors.white,
@@ -185,7 +183,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
           Expanded(
             child: Container(
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(15),
                   topLeft: Radius.circular(15),
@@ -202,7 +200,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                       automaticIndicatorColorAdjustment: false,
                       indicatorColor: Colors.black,
                       controller: _tabController,
-                      tabs: [
+                      tabs: const [
                         Tab(text: "Habit Tracker"),
                         Tab(text: "Journal Prompts"),
                       ],
@@ -216,7 +214,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Expanded(
@@ -224,8 +222,8 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                                         padding: const EdgeInsets.only(top: 15),
                                         children: (myList.length == 0)
                                             ? [
-                                                Column(
-                                                  children: const [
+                                                const Column(
+                                                  children: [
                                                     Icon(Icons.light_mode,
                                                         color: Colors.black,
                                                         size: 60),
@@ -274,7 +272,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                                             isScrollControlled: true,
                                             context: context,
                                             builder: (context) {
-                                              return AddHabitScreen();
+                                              return const AddHabitScreen();
                                             });
                                       }),
                                 ),
@@ -286,7 +284,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                               Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    SizedBox(
+                                    const SizedBox(
                                       height: 10,
                                     ),
                                     Expanded(
@@ -326,7 +324,7 @@ class _HabitManagerScreenState extends State<AppEditorScreen>
                                             isScrollControlled: true,
                                             context: context,
                                             builder: (context) {
-                                              return AddJournalScreen();
+                                              return const AddJournalScreen();
                                             });
                                       }),
                                 ),

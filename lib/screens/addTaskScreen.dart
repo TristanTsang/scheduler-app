@@ -1,12 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../Providers/AppData.dart';
 import '../Providers/TaskData.dart';
 import '../constants.dart';
-import '../Providers/journalData.dart';
 import '../models/task.dart';
 
 const List<DropdownMenuItem<String>> list = <DropdownMenuItem<String>>[

@@ -2,13 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-
-import '../Providers/AppData.dart';
 import '../constants.dart';
 import '../Providers/HabitData.dart';
 import '../models/habit.dart';
-import '../Providers/journalData.dart';
-
 class AddHabitScreen extends StatefulWidget {
   const AddHabitScreen({Key? key}) : super(key: key);
 

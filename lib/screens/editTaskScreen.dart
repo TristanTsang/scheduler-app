@@ -1,13 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:improvement_journal/Providers/AppData.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../Providers/TaskData.dart';
 import '../Services/sqlite_service.dart';
 import '../constants.dart';
-import '../Providers/journalData.dart';
 import '../extensions.dart';
 import '../models/task.dart';
 

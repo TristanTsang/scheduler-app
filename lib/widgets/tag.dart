@@ -14,7 +14,7 @@ class Tag extends StatelessWidget {
           borderRadius: BorderRadius.circular(25),
           color: Colors.deepPurple
         ),
-        child: Padding(padding: EdgeInsets.symmetric(horizontal: 15, vertical: 3), child: Text(text!, style: TextStyle(fontSize:12.5, color: Colors.white),)),
+        child: Padding(padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 3), child: Text(text, style: const TextStyle(fontSize:12.5, color: Colors.white),)),
       ),
     );
   }

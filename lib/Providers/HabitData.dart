@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:improvement_journal/extensions.dart';
 import '../Services/sqlite_service.dart';
 import '../models/habit.dart';
-import '../models/journalEntry.dart';
 
 class HabitData extends ChangeNotifier {
 

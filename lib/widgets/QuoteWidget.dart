@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:improvement_journal/constants.dart';
 
 class QuoteWidget extends StatelessWidget {
   const QuoteWidget({Key? key}) : super(key: key);

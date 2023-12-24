@@ -1,7 +1,6 @@
 import 'dart:collection';
 import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
-import 'package:intl/intl.dart';
 
 class Habit {
   int _highestStreak = 0;
@@ -20,7 +19,7 @@ class Habit {
   }, hashCode: (DateTime date) {
     return int.tryParse("${date.year}${date.month}${date.day}")!;
   });
-  bool _tracked = true;
+  final bool _tracked = true;
 
   int get highestStreak => _highestStreak;
 
@@ -57,7 +56,7 @@ class Habit {
     return map;
   }
   bool isTracked(DateTime date) {
-    return ((date.isAfter(_startDate) || date.isSameDate(_startDate)) && date.dateIsBefore(_endDate) && date.dateIsBefore(DateTime.now().add(Duration(days: 1))));
+    return ((date.isAfter(_startDate) || date.isSameDate(_startDate)) && date.dateIsBefore(_endDate) && date.dateIsBefore(DateTime.now().add(const Duration(days: 1))));
   }
 
   bool isDone(DateTime date) {

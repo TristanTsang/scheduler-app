@@ -1,23 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
 import 'package:improvement_journal/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
-
 import '../Providers/AppData.dart';
-import '../Providers/journalData.dart';
 import '../models/journalEntry.dart';
-import '../models/task.dart';
 import '../widgets/JournalButton.dart';
 import '../widgets/QuoteWidget.dart';
 import '../widgets/habitTrackerWidget.dart';
-import '../widgets/taskWidget.dart';
 import '../widgets/toDoListWidget.dart';
-import 'AppEditorScreen.dart';
-import 'addTaskScreen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,7 +25,6 @@ class _HomeScreenState extends State<HomeScreen> {
   DateTime date = DateTime.now();
 
 
-  @override
   String getDateText() {
     String text = "";
     if (selectedDay.isSameDate(date)) {
@@ -178,10 +170,6 @@ class _CalendarTimelineState extends State<CalendarTimeline> {
 
   @override
   Widget build(BuildContext context) {
-    ScrollController scrollController = ScrollController(
-      initialScrollOffset: MediaQuery.of(context).size.width, // or whatever offset you wish
-      keepScrollOffset: true,
-    );
     var children = displayWeek(weekDate, myFunc);
     return ScrollablePositionedList.builder(
       padding: EdgeInsets.symmetric(horizontal: 5),

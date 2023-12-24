@@ -1,9 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:improvement_journal/widgets/taskWidget.dart';
 import 'package:provider/provider.dart';
-
 import '../Providers/AppData.dart';
 import '../Providers/TaskData.dart';
 import '../constants.dart';

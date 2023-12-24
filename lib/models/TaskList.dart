@@ -1,7 +1,7 @@
 import 'package:improvement_journal/models/task.dart';
 
 class TaskList {
-  List<Task> _tasks = <Task>[];
+  final List<Task> _tasks = <Task>[];
 
   List<Task> getTasks() {
     return _tasks;

@@ -1,14 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:improvement_journal/constants.dart';
-import 'package:improvement_journal/screens/addHabitScreen.dart';
 import 'package:provider/provider.dart';
 
 import '../Providers/HabitData.dart';
 import '../models/habit.dart';
 import '../screens/AppEditorScreen.dart';
-import '../screens/AppEditorScreen.dart';
-import '../screens/addTaskScreen.dart';
 import 'HabitWidget.dart';
 class HabitTrackerWidget extends StatelessWidget {
   DateTime date;

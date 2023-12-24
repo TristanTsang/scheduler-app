@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import '../Providers/JournalData.dart';
 import '../constants.dart';
 import '../models/journalEntry.dart';
-import 'AppEditorScreen.dart';
 import 'JournalTextScreen.dart';
 
 class JournalsScreen extends StatefulWidget {

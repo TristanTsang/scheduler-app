@@ -1,8 +1,4 @@
-import 'dart:collection';
 import 'dart:convert';
-
-import 'package:improvement_journal/models/task.dart';
-
 import 'JournalPrompt.dart';
 
 class JournalEntry {

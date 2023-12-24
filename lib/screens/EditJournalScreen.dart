@@ -1,8 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../Providers/AppData.dart';
 import '../Services/sqlite_service.dart';
 import '../constants.dart';
 import '../Providers/JournalData.dart';

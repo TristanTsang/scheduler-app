@@ -1,15 +1,10 @@
-import 'dart:collection';
 import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_quill/flutter_quill.dart';
 import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/extensions.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import '../Providers/AppData.dart';
-import '../Providers/JournalData.dart';
 import '../constants.dart';
 import '../models/journalEntry.dart';
 
@@ -41,7 +36,6 @@ class _JournalTextScreenState extends State<JournalTextScreen> {
     _controller = QuillController.basic();
   }
 
-  @override
   late QuillController _controller;
   Widget build(BuildContext context) {
     DateTime selectedDate = widget.date;

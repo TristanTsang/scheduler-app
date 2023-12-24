@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 // Color Palletes //
 const Color kLightGrey = Color(0xffD0D0D0);
@@ -8,7 +6,7 @@ const Color kGrey = Color(0xff909090);
 const Color backgroundColor = Color(0xffededed);
 
 //App Theme//
-Color kPrimaryColor = Color(0xff000000);
+Color kPrimaryColor = const Color(0xff000000);
 Color kAccentColor = kGrey;
 Color kLightAccentColor = kLightGrey;
 Color kDeepAccentColor = kDarkGrey;

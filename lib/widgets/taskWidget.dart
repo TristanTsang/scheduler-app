@@ -3,13 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:improvement_journal/Services/sqlite_service.dart';
 import 'package:improvement_journal/constants.dart';
 import 'package:improvement_journal/extensions.dart';
-import 'package:improvement_journal/widgets/tag.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-
 import '../Providers/AppData.dart';
 import '../Providers/TaskData.dart';
-import '../Providers/journalData.dart';
 import '../models/task.dart';
 import '../screens/editTaskScreen.dart';
 
@@ -20,8 +16,6 @@ class SimpleTaskWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    DateTime date = Provider.of<AppData>(context, listen:true).getSelectedDay();
 
     return Row(children: [
       SizedBox(

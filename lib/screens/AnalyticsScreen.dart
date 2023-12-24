@@ -1,19 +1,13 @@
-import 'dart:collection';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
-
 import '../Providers/HabitData.dart';
-import '../Providers/JournalData.dart';
 import '../constants.dart';
 import '../extensions.dart';
 import '../models/habit.dart';
-import '../models/journalEntry.dart';
 import 'AppEditorScreen.dart';
-import 'JournalTextScreen.dart';
 
 class AnalyticsScreen extends StatefulWidget {
   const AnalyticsScreen({Key? key}) : super(key: key);
@@ -50,8 +44,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
           elevation: 0,
-          backgroundColor: Color(0xffF5F5F5),
-          items: [
+          backgroundColor: const Color(0xffF5F5F5),
+          items: const [
             BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
             BottomNavigationBarItem(
                 icon: Icon(Icons.description), label: "Journals"),
@@ -60,9 +54,9 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           ],
           type: BottomNavigationBarType.fixed,
           selectedLabelStyle:
-              TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
-          selectedIconTheme: IconThemeData(size: 35),
-          unselectedLabelStyle: TextStyle(fontSize: 12),
+              const TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+          selectedIconTheme: const IconThemeData(size: 35),
+          unselectedLabelStyle: const TextStyle(fontSize: 12),
           showUnselectedLabels: true,
           currentIndex: _selectedIndex,
           selectedItemColor: kPrimaryColor,
@@ -70,19 +64,18 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
           onTap: _onItemTapped,
         ),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(30),
+          preferredSize: const Size.fromHeight(30),
           child: AppBar(
             titleSpacing: 0,
             leadingWidth: 45,
-            title: Text(
+            title: const Text(
               "Your Habit Analytics",
               style: TextStyle(fontSize: 17.5),
             ),
-            leading: Icon(Icons.bar_chart),
+            leading: const Icon(Icons.bar_chart),
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add, color: Colors.white),
           backgroundColor: kPrimaryColor,
           onPressed: () {
             Navigator.push(
@@ -90,6 +83,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                 MaterialPageRoute(
                     builder: (context) => const AppEditorScreen()));
           },
+          child: const Icon(Icons.add, color: Colors.white),
         ),
         backgroundColor: backgroundColor,
         body: ListView(
@@ -99,7 +93,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
               color: Colors.black,
               height: MediaQuery.of(context).size.height * 0.2,
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Padding(
@@ -110,19 +104,19 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
+                        const Text(
                           "Habit Analytics",
                           style: TextStyle(
                               fontSize: 25, fontWeight: FontWeight.bold),
                         ),
-                        list.length > 0
+                        list.isNotEmpty
                             ? Center(
                                 child: DropdownMenu(
                                   menuStyle: MenuStyle(),
                                   textStyle: TextStyle(fontSize: smallFontSize, fontWeight: FontWeight.bold),
                                     width:
                                         MediaQuery.of(context).size.width * 0.4,
-                                    inputDecorationTheme: InputDecorationTheme(
+                                    inputDecorationTheme: const InputDecorationTheme(
 
                                         enabledBorder: UnderlineInputBorder(
                                             borderSide: BorderSide())),
@@ -142,11 +136,11 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                             : Container(),
                       ],
                     ),
-                    list.length > 0
+                    list.isNotEmpty
                         ? Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 20,
                               ),
                               Material(
@@ -161,10 +155,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                   child: Padding(
                                     padding: const EdgeInsets.all(20.0),
                                     child: TableCalendar(
-                                      headerStyle: HeaderStyle(
+                                      headerStyle: const HeaderStyle(
                                         formatButtonVisible: false,
                                       ),
-                                      calendarStyle: CalendarStyle(),
+                                      calendarStyle: const CalendarStyle(),
                                       calendarBuilders: CalendarBuilders(
                                         prioritizedBuilder:
                                             (context, day, focusedDay) {
@@ -185,7 +179,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                               child: Center(
                                                 child: Text(
                                                   text,
-                                                  style: TextStyle(
+                                                  style: const TextStyle(
                                                       color: Colors.white),
                                                 ),
                                               ),
@@ -250,7 +244,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 10,
                               ),
                               Material(
@@ -278,7 +272,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                                       .size
                                                       .width *
                                                   0.15),
-                                          child: Divider(
+                                          child: const Divider(
                                             height: 20,
                                             color: Colors.black,
                                           ),
@@ -331,7 +325,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                                       .size
                                                       .width *
                                                   0.25),
-                                          child: Divider(
+                                          child: const Divider(
                                             height: 20,
                                           ),
                                         ),
@@ -383,7 +377,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                                       .size
                                                       .width *
                                                   0.25),
-                                          child: Divider(
+                                          child: const Divider(
                                             height: 20,
                                           ),
                                         ),
@@ -408,7 +402,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(
+                                        const SizedBox(
                                           height: 20,
                                         ),
                                       ],
@@ -418,10 +412,10 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                               )
                             ],
                           )
-                        : Padding(
-                            padding: const EdgeInsets.only(top: 40.0),
+                        : const Padding(
+                            padding: EdgeInsets.only(top: 40.0),
                             child: Center(
-                              child: Column(children: const [
+                              child: Column(children: [
                                 Icon(Icons.light_mode,
                                     color: Colors.black, size: 60),
                                 Text(
